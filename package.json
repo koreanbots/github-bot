@@ -23,6 +23,7 @@
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
+    "js-yaml": "^3.14.0",
     "probot": "^9.5.3"
   },
   "devDependencies": {
