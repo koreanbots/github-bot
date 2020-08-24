@@ -3,7 +3,7 @@ import { Application } from 'probot' // eslint-disable-line no-unused-vars
 export = (app: Application) => {
   app.on('issues.opened', async (context) => {
     if (!context.payload.repository.full_name.startsWith('koreanbots/')) return
-    if (context.payload.issue.labels.find(r => r.name.includes('bug'))) {
+    if (context.payload.issue.labels.find(r => r.name.includes('bug')) && context.payload.repository.name === "koreanbots") {
       context.github.issues.createComment(context.issue({
         body: `**버그를 제보해주셔서 감사합니다.**
 해당 버그가 지원하지 않는 기기에서만 발생하는 버그인지 다시 한 번 확인해주세요.
