@@ -2,7 +2,7 @@ import { Application } from 'probot' // eslint-disable-line no-unused-vars
 
 export = (app: Application) => {
   app.on('issues.opened', async (context) => {
-    console.log(context.payload.issue.labels)
+    if (!context.payload.repository.full_name.startsWith('koreanbots/')) return
     if (context.payload.issue.labels.find(r => r.name.includes('bug'))) {
       context.github.issues.createComment(context.issue({
         body: `**버그를 제보해주셔서 감사합니다.**
@@ -87,7 +87,7 @@ export = (app: Application) => {
         context.github.issues.createComment(context.issue({ body: `\`P${data.arg[0]}\`의 중요도가 배정되었습니다.` }))
         break
       case 'approve':
-        context.github.issues.addLabels(context.issue({ labels: ['approve'] }))
+        context.github.issues.addLabels(context.issue({ labels: ['approved'] }))
         context.github.issues.createComment(context.issue({ body: '승인되었습니다.' }))
         context.github.issues.update({ ...params, state: 'open' })
       break;
