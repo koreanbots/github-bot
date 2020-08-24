@@ -2,6 +2,7 @@ import { Application } from 'probot' // eslint-disable-line no-unused-vars
 
 export = (app: Application) => {
   app.on('issues.opened', async (context) => {
+    if (!context.repository.full_name.startsWith('koreanbots/')) return
     console.log(context.payload.issue.labels)
     if (context.payload.issue.labels.find(r => r.name.includes('bug'))) {
       context.github.issues.createComment(context.issue({
@@ -45,6 +46,7 @@ export = (app: Application) => {
   })
 
   app.on('issue_comment.created', async (context) => {
+    if (!context.repository.full_name.startsWith('koreanbots/')) return
     if (!context.payload.comment.body.startsWith('/')) return
     if (!['MEMBER', 'COLLABORATOR', 'OWNER'].includes(context.payload.comment.author_association)) return context.github.reactions.createForIssueComment(context.issue({ comment_id: context.payload.comment.id, content: 'eyes' }))
     const data = {
